@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Stock Market Price Prediction System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+         body {
+            background-image: url("{% static '1.jpg' %}");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="m-4">
+            <table class="table table-dark table-hover">
+                <a href="{% url 'predict' %}" class="btn btn-secondary">Prediction Back</a>
+                <h2 style="text-align: center;color:rgba(241, 236, 236, 0.986); background-color:rgb(74, 81, 87);margin-top: 5px;">Stock Market Price Prediction System Show Record Data</h2>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Open</th>
+                        <th>High</th>
+                        <th>Low</th>
+                        <th>Volume</th>
+                        <th>Predicted Price </th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% if page_obj %}
+                    {% for p in page_obj %}  
+                    <tr>
+                        <td>{{ forloop.counter}}</td>
+                        <td>{{p.open}}</td>
+                        <td>{{p.high}}</td>
+                        <td>{{p.low}}</td>
+                        <td>{{p.volume}}</td>
+                        <td>{{p.pre_price_close}}</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                     <br><br>
+                     <h2>No It Any Stock Market Price Prediction Data added yet.</h2>
+                     <br><br>
+                    {% endif %}
+                </tbody>
+            </table>
+            <!-- {% if page_obj %}
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>&nbsp;&nbsp;&nbsp;
+                {% else %}
+                <li class="disabled"><span>&laquo;</span></li>&nbsp;&nbsp;&nbsp;
+                {% endif %}
+                {% for i in paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>&nbsp;&nbsp;&nbsp;
+                {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>&nbsp;&nbsp;&nbsp;
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>&nbsp;&nbsp;&nbsp;
+                {% else %}
+                <li class="disabled"><span>&raquo;</span></li>&nbsp;&nbsp;&nbsp;
+                {% endif %}
+              </ul>
+              {% endif %} -->
+
+              <ul class="pagination">
+                        
+                <li>
+                    {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" class="prev">
+                        <i class="pe-7s-angle-left"></i>
+                    </a>
+                     {% endif %}
+                </li>
+
+               {% load l10n %}           
+               {% for page_obj in page_obj.paginator.page_range %}
+                {% if page_obj.number == page_obj  %}
+                    <li><a href="?page={{page_obj }}" class="active" >{{page_obj | localize }}</a></li>&nbsp;&nbsp;
+                {% else %}
+                    <li ><a href="?page={{page_obj}}">{{page_obj }}</a></li> &nbsp;&nbsp;
+                {% endif %}
+                {% endfor %}
+                
+                
+                <li>
+                     {% if page_obj.has_next %}
+                      <a href="?page={{ page_obj.next_page_number }}" class="next"> <i class="pe-7s-angle-right"></i></a>&nbsp;&nbsp;
+                     {% endif %}
+                
+                </li>
+            </ul>
+              
+        </div>
+    </div>
+</body>
+
+</html>
